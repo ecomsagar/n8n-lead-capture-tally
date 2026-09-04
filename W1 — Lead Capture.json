@@ -1,0 +1,234 @@
+{
+  "name": "W1 — Lead Capture",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "316008e7-e2b1-4458-9d4e-c75b55b9d546",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "698718fe-aa44-4e5e-8f0c-6f6794d133e3",
+      "name": "Webhook",
+      "webhookId": "316008e7-e2b1-4458-9d4e-c75b55b9d546"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53a55a34-b0b4-4b64-ba0e-33805ac41bdb",
+              "name": "Name",
+              "value": "={{ $json.body.data.fields.find(f => f.label === 'Name').value }}",
+              "type": "string"
+            },
+            {
+              "id": "304eff01-a370-4d65-9d55-f8bd13a84626",
+              "name": "Phone",
+              "value": "={{ $json.body.data.fields.find(f => f.label === 'Phone number').value }}",
+              "type": "string"
+            },
+            {
+              "id": "c70b05b8-3097-4e21-b637-21fbf1347df7",
+              "name": "Product",
+              "value": "={{ $json.body.data.fields.find(f => f.label === 'Product').options.find(o => o.id === $json.body.data.fields.find(f => f.label === 'Product').value[0]).text }}",
+              "type": "string"
+            },
+            {
+              "id": "6748eb61-0ede-4790-8694-5bc372657d17",
+              "name": "Budget",
+              "value": "={{ $json.body.data.fields.find(f => f.label === 'Budget').value }}",
+              "type": "string"
+            },
+            {
+              "id": "57f2f152-5fe1-4acc-b34c-b607d2c57529",
+              "name": "Time",
+              "value": "={{ $json.body.createdAt }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "a73bdae3-ab6f-4aa5-8746-59a3fc74ff9c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1AJAFIeA06XKkd7Ub8ekHhpjasWX_m83o0hVbYcFzfBo",
+          "mode": "list",
+          "cachedResultName": "Top Tech UAE — Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AJAFIeA06XKkd7Ub8ekHhpjasWX_m83o0hVbYcFzfBo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AJAFIeA06XKkd7Ub8ekHhpjasWX_m83o0hVbYcFzfBo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product",
+              "displayName": "Product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Budget",
+              "displayName": "Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Time",
+              "displayName": "Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        0
+      ],
+      "id": "f76614b7-2801-42b7-999e-ebf797b79b0a",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "flqhmQ1e2zr56SCL",
+          "name": "Google Sheets account 245"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8737114442",
+        "text": "=নাম: {{ $json.Name }}\nফোন: {{ $json.Phone }}\nপ্রোডাক্ট: {{ $json.Product }}\nবাজেট: {{ $json.Budget }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "25247362-0609-4807-9b74-ca94b20f9781",
+      "name": "Send a text message",
+      "webhookId": "f5829fb8-7218-4b45-bd59-2d8d63245cd4",
+      "credentials": {
+        "telegramApi": {
+          "id": "W7syG0tXLdKeUeqp",
+          "name": "Telegram account 146"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4bda8fac-a5db-4629-b1f7-3b10634cf316",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ab95a641c1b7099ef407af1cf01df77e8f73a8620f3dfa9286ddaad6ae2c066b"
+  },
+  "nodeGroups": [],
+  "id": "6OqORgrTVQYxrUtG",
+  "tags": []
+}
