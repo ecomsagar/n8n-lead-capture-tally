@@ -3,7 +3,7 @@
 Form submitted → row in Google Sheets in 5 seconds → instant Telegram alert.
 No manual data entry, no copy-paste.
 
-![Telegram alert](screenshots/telegram-alert.png)
+https://prnt.sc/bLB8qxcOR-6-
 
 ## The problem
 
